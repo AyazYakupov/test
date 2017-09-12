@@ -1,0 +1,97 @@
+                     Lecture 2
+                     Structure
+
+   structure = совокупность нескольких перемененный сгруппированных под одним именем
+структура является разновидностью классов.
+
+   Как объявляется структура:
+   struct [имя_типа] {
+      type2 element1;
+      type2 element2;
+      -------nn----
+      typeN elementN;
+   }[список описателей];
+
+   Example
+   struct{
+      double x,y;
+   }p;
+
+   struct point{
+      double x,y;
+   };
+point p,q;
+
+   структуры можно вкладывать друг в друга
+
+struct recf{
+   point p1;
+   point p2;
+};
+
+const N = 50;
+struct worker{
+   char fio[N];
+   int year;
+   int salary;
+};
+worker w = {"Alexandrov A.A.", 1995, 80000}, *pw = &w; //указатель и ее объявление
+strcpu((char*)(w.fio, "Ivanov I.I."); // change fio;
+w.year = 2000;
+pw->salary = 50000;
+
+struct point {double x,y;};
+struct recf { point p1, p2;}
+recf r, * pr = &r;
+r.p1.x = r.p1.y = 0.0;
+pr->p2.x = pr->p2.y=1.0;//на указатель через стрелку, на переменную через точку
+
+пусть у нас некий тип комплексное число и мы хотим создать массив комплексных чисел
+struct complex{
+   double r, i// r - действительная часть, i - мнимая часть
+}
+compl[2][3] = { // array of complex 
+   {{1.0,1.0},{1.0,1.0},{1.0,1.0}},
+   {{2.0,2.0},{2.0,2.0},{2.0,2.0}}
+};
+
+const int N = 30, M = 20;
+struct pair{int a,b;}; //пара
+pair P[N];
+srand((insigned)time(NULL));
+for(int i = 0; i < N; i++)
+   P[i], a = rand()%M;
+   P[i], b = rand()%M;
+}
+for(int j = 0; j < N; j++)
+   printf("\n\t %3d %3d", P[j].a, P[j].b);
+
+Dinamic array with struct:
+
+const int M = 20;
+int n(0);
+cout << '\n\t' << "укажите количество пар: ");
+cin >> n;
+
+struct pair{int a,b;};
+pair *p = new pair[n]; // можно писать p[i],a = M; p[i],b = M;
+// поработали с массивом...
+delete []p; 
+
+//структура характерная только для языка си - обьединение(union)
+в котором все поля располагаются по одному и тому же адресу
+
+Example 
+
+union - вместо struct
+
+Union variant{  // это буфер размером c самого большого типа
+   int ival;   // на все типы одно значение
+   double dval;
+   char* cval;
+}u, *pu = &u;
+
+pu -> dval = 2.7;
+u.ival = 0;
+strcpy(u.cval, "My string"); // так нельзя // если сперва написать char buf[100]
+а потом u.cval = buf; // так можно // strcpy(u.cval, "My string")

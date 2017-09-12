@@ -1,0 +1,81 @@
+при работе с текстовыми файлами
+
+функция чтение строки из текстового файла
+char * fgets(char * str, int n, FILE * stream);// str - куда будет считана строка, n - байты
+// в случае ошибки возвращает NULL, если конец файла тоже NULL
+
+  function:
+  int feof(FILE *stream); // если конец файла, то возвращает не нулевое значение - если конец файла возвратит EOF -1 
+
+int fputs (const char *str, FILE * stream); // при успешном выполнении выводит количество символов выведенных в поток, при успешком выдает EOF -1
+
+программа которая выводит содердимое в консоль:
+
+const int STRSIZE = 256;
+FILE * pf(NULL);
+char str [STRSIZE];
+char * fn = "D:\\User\\tst.txt"; // слеш командный символ, поэтому мы его продваиваем
+
+if ((pf = fopen(fn, "r")) == NULL)
+   printf("something error");
+
+while(!feof(pf)){
+   if (fgets(str, STRSIZE-1, pf)){
+      printf("\n%s", str);
+   }
+}
+
+fclose(pf);
+
+посимвольная обработка
+
+int fgetc (FILE * stream);
+int fputc(int ch, FILE *stream); // если символ не был записан то возвращается EOF -1
+
+чтение текстового файла через функцию 
+
+char ch;
+FILE *pf = fopen("D:\\User\\test.txt", "r");
+while ((ch fgetc(pf))!=EOF)
+   printf("%c",ch);
+fclose(pf);
+
+int fprintf(FILE * stream, const char *format,...); // ... - список переменных
+
+int fscanf (FILE * stream, const char *format,...); // format если 12 13 то "%d %d"
+
+struct worker{
+   int id;
+   char name[20];
+   int salary;
+}
+
+bool create(const char *fn, int n) // n - количество сотрудников
+{
+  FILE *pf = fopen (fn, "w");
+  if(!pf)
+    return false;
+  worker w;
+  for (int i = 0; i<n; i++){
+    w.id = i+1;
+    w.salary = 1000 * (20+(rand()%30));
+    cout << "Введите имя: ";
+    cin >> w.name;  // scanf("%s", w.name);
+    fprintf(pf,"%4d %20s %5d \n", w.id, w.name, w.salary);
+  }
+  fclose(pf);
+  return true;
+}
+
+void print (const char *fn){
+   FILE *pf = fopen (fn, "r");
+   worker w;
+   printf("\n");
+   while(fscanf(pf, "%d %s %d", &w.id, w.name, &w.salary) > 0){
+      printf("\n %4d %20s %5d", w.id, w.name, w.salary);
+   }
+   printf("\n");
+   fclose(pf);
+}
+
+Скачать Керниган Ричи про предпроцессор

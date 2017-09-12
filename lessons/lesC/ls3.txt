@@ -1,0 +1,131 @@
+      Lecture 3
+
+typedef тип новое_имя [размер]
+typedef ключевое слово языка
+тип = тип который мы ему присваиваем
+
+example:
+typedef unsigned int UINT; // используют заглавные буквы чтоб понятно было, что этой созданный мной тип
+необходимо чтобы писать меньше символов
+
+typedef char MSG[100]; // MSG - array
+
+typedef struct{
+   char fio[80];
+   int year;
+   int salary;
+}WORKER, *PWORKER; // *PWORKER - уже определили указатель, потому не нужно больше указывать звездочку
+// разницы нет между просто struct
+
+WORKER w;
+PWORKER pw = &w;
+UINT i(0), j(10);
+MSG msg[10]; // array[10*100]
+
+   Тема: Файловый тип
+
+stdin
+stdout
+
+stderr // выводятся ошибки
+
+time recorder = 17:00*
+
+<диск>:<путь><имя.файла>
+#include <stdio.h> // necessery library
+
+Язык си предполагает что у файла отсутствует тип
+
+возникает понятие потока байт - stream
+   байт 1 байт2 ... байтN EOF // EOF - marker of end
+
+работа с потоком
+преде всего поток надо открыть
+при открытии потока в программу передается указатель на структуру известного типа (FILE)
+
+#include <stdio.h>
+   FILE *pf(NULL); // вместо pf можно использовать stream
+
+открыть поток - fopen
+FILE * fopen(const char* fu, const char *mode); // fu - физический путь файла, второе режим работы)
+
+текстовые и двоичные потоки
+текстовый файл - некоторое число байт
+строки разделяются CR LF// CR - возврат каретки ,LF - переходна новую строку
+в двоичном '\n'
+
+mode - текстовой режим - "r", "r+", "w", "w+", "a", "a+"// a - добавлять, плюсик - файл открывается в режиме модификации
+
+mode - двоичный режим - "rb", "rb+", "wb", "wb+", "ab", "ab+"
+
+закрыть поток - fclose()
+
+fclose(FILE* stream);
+
+FILE *pf(NULL);
+char *fn = ("D:\\User\\test.txt");
+if ((pf = fopen (fn, "r")) == NULL){
+   printf("Не удается открыть файл: %s \n", fn);
+_getch();
+return 1;
+}
+// работа с файлом 
+fclose(pf);
+
+int ferror(FILE *stream);
+
+void perror(const char * str); // 
+
+errno // содержит какой то код ошибки
+
+void clearerr(FILE *stream) // ошибка сбрасывается;
+
+функции работы с двоичным файлом:
+
+чтение данных из двличного файла:
+size_t fread(void *p, size_t s, size_t n, FILE *stream);//читает из потока стрим данные в буфер адрес кот опред-ся парам-ом p, n - блоков данных, каждый из кот. имеет размер s
+если ф-я возвратила 0, то либо достигнут конец файла, либо ошибка
+fread возвращает количество считанных букв n
+
+size_t fwrite(void *p, size_t s, size_t n, FILE *stream); //в случае ошибки возвращает 0; 
+
+функции позиционирования:
+
+long int ftell(FILE *stream); // получить знач. файл. указателя
+
+установить значение файлового указателя: int fseek(FIlE *stream, long int //величина смещение, int from//относительно чего)//если SEEK_SET - с начала файла, SEEK_END - относительно конца
+
+struct Worker{
+   int id;
+   char name[20];
+   int salary;
+};
+bool create(const char *fn, size_t){
+   FILE *pf(NULL);
+   Worker w;
+   if(!(pf=fopen(fn, "wb")))
+      return false;
+   for (int i = 0; i < n; i++){
+
+      printf("\n\t Введите имя: ");
+      gets(w.name);
+      w.id = i+1;
+      w.salary = ((rand()%30)+1)*1000;
+      fwrite((void*)&w, sizeof(worker), 1,pf);
+   }
+   fclose(pf);
+  return true;
+}
+
+теперь программа принт из файла
+
+void prn(const char *fn){
+   worker w;
+   FILE *pf = fopen (fn, "rb");
+   printf("\n");
+   
+   while (fread((void*)&w, sizeof(Worker),1,pf))
+   printf ("\n%4d : %20s - %8d", w.id, w.name, w.salary);
+   close(pf);
+printf("\n");
+}
