@@ -11,6 +11,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'SirVer/ultisnips', { 'on': [] }
 Plug 'honza/vim-snippets'
+Plug 'tpope/vim-surround'
 
 call plug#end()
 set nocompatible
@@ -30,10 +31,14 @@ set number
 set completeopt-=preview
 set backspace=2 "backspace deletes like most programs in insert mode
 set showcmd "display incomplete command
+set wildmenu
+set lazyredraw "redraw only when we need to
+set showmatch "highlight matching[{()}]
 set autowrite "automatically :write before running commands
 set ruler "show the cursor position all the time
 set autoread "reload file changed outside vim
 set cursorline "highlight the current line
+filetype indent on
 set visualbell "stop that ANNOYING beeping
 set guifont=Mono\ 16
 
@@ -42,7 +47,8 @@ set gdefault "Never have to type /g at the end of search / replace again
 
 "Softtabs, 2 spaces
 set expandtab
-set tabstop=3
+set tabstop=4
+set softtabstop=4
 set shiftwidth=2
 set shiftround
 
@@ -77,23 +83,23 @@ set scrolloff=8
 
 "Use tab to jump between blocks, because it's easier
 
-set hlsearch
-set incsearch
+set hlsearch " highlight matches
+set incsearch " search as characters are entered
 
 "building
-au FileType c set makeprg=gcc\ %
 au FileType cpp set makeprg=g++\ %
 
 nnoremap <C-]> :make!<CR>
-nnoremap <C-\> :!~/Project_C/a.out<CR>
-noremap <F5> :!python %<CR>
-inoremap <F5> <ESC>:!python %<CR>
+nnoremap <C-\> :!.n 'tpope/vim-surround'/a.out<CR>
+noremap <F5> :!python3 %<CR>
+inoremap <F5> <ESC>:!python3 %<CR>
 "remap CapsLock
 inoremap kj <Esc>
 noremap <Leader>y "*y
 noremap <Leader>p "*p
 noremap <Leader>Y "+y
 noremap <Leader>P "+p
+nnoremap <leader><space> :nohlsearch<CR> "turn off search highlight
 
 map <C-n> :NERDTreeToggle<CR>
 
@@ -101,7 +107,6 @@ map <silent> <C-h> :call WinMove('h')<CR>
 map <silent> <C-j> :call WinMove('j')<CR>
 map <silent> <C-k> :call WinMove('k')<CR>
 map <silent> <C-l> :call WinMove('l')<CR>
-
 function! WinMove(key)
         let t:curwin = winnr()
         exec "wincmd ".a:key
@@ -114,3 +119,4 @@ function! WinMove(key)
                 exec "wincmd ".a:key
         endif
 endfunction
+
