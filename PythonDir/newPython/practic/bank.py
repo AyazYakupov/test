@@ -5,4 +5,4 @@ def bank(a, year):
 
 money = int(input('введите количество рублей: '))
 year = int(input('введите количество лет: '))
-print('сумма вклада по окончанию {} будет равна {} рублей'.format(str(year), str(bank(money, year))))
+print('сумма вклада по окончанию {} будет равна {} рублей'.format(str(year), str(bank(money, year)))
